@@ -1,5 +1,4 @@
 using BookWorldApp.Data;
-using BookWorldApp.Infrastructure;
 using BookWorldApp.Services;
 using BookWorldApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +29,8 @@ public static class AppHost
         services.AddSingleton<ICatalogService, CatalogService>();
         services.AddSingleton<IReferenceService, ReferenceService>();
         services.AddSingleton<IAvailabilityService, AvailabilityService>();
+        services.AddSingleton<ISaleService, SaleService>();
+        services.AddSingleton<IChequeService, ChequeService>();
 
         services.AddSingleton<IWindowService, WindowService>();
         services.AddTransient<LoginViewModel>();

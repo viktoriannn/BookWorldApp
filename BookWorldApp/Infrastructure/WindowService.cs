@@ -1,11 +1,10 @@
-using BookWorldApp.Services;
-using BookWorldApp.ViewModels;
-using BookWorldApp.Views;
-using BookWorldApp.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using BookWorld.Services;
+using BookWorld.ViewModels;
+using BookWorld.Views;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace BookWorldApp.Infrastructure;
+namespace BookWorld.Infrastructure;
 
 public sealed class WindowService(IServiceProvider services) : IWindowService
 {
@@ -33,6 +32,13 @@ public sealed class WindowService(IServiceProvider services) : IWindowService
         }
     }
 
+    public void ShowCheque(ChequeViewModel viewModel)
+    {
+        var window = new ChequeWindow { DataContext = viewModel, Owner = _current };
+        viewModel.CloseRequested += _ => CloseIfOpen(window);
+        window.ShowDialog();
+    }
+
     private void Replace(Window next)
     {
         var previous = _current;
@@ -40,5 +46,10 @@ public sealed class WindowService(IServiceProvider services) : IWindowService
         Application.Current.MainWindow = next;
         next.Show();
         previous?.Close();
+    }
+
+    private static void CloseIfOpen(Window window)
+    {
+        if (window.IsVisible) window.Close();
     }
 }

@@ -45,6 +45,9 @@
                     <Button Content="Очистить чек"
                             Style="{StaticResource SecondaryButton}"
                             Command="{Binding ClearCartCommand}"/>
+                    <Button Content="Подтвердить продажу"
+                            Style="{StaticResource PrimaryButtonFlush}"
+                            Command="{Binding ConfirmSaleCommand}"/>
                 </WrapPanel>
 
                 <Grid Margin="0,10,0,0">

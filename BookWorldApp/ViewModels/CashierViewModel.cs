@@ -18,13 +18,17 @@ public partial class CashierViewModel : ObservableObject
         IWindowService windows,
         ICatalogService catalog,
         IReferenceService references,
-        IAvailabilityService availability)
+        IAvailabilityService availability,
+        ISaleService sales,
+        IChequeService cheques)
     {
         _session = session;
         _windows = windows;
         _catalog = catalog;
         _references = references;
         _availability = availability;
+        _sales = sales;
+        _cheques = cheques;
     }
 
     public string ShopAddress => _session.User?.ShopName ?? "";
