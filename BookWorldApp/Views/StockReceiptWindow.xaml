@@ -1,0 +1,62 @@
+﻿<Window x:Class="BookWorldApp.Views.StockReceiptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="Поступление книг"
+        Style="{StaticResource AppWindow}"
+        Width="560"
+        Height="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Border Padding="20">
+        <StackPanel>
+            <TextBlock Text="Поступление книг" Style="{StaticResource Title}"/>
+
+            <StackPanel Margin="0,0,0,10">
+                <TextBlock Text="Магазин *" Style="{StaticResource Label}"/>
+                <ComboBox/>
+            </StackPanel>
+
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Книга *" Style="{StaticResource Label}"/>
+                    <ComboBox/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="Нет в каталоге? Добавить"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Bottom"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Количество экземпляров *" Style="{StaticResource Label}"/>
+                    <xctk:IntegerUpDown Value="20" Minimum="1" Maximum="9999" Increment="1"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Дата поступления *" Style="{StaticResource Label}"/>
+                    <DatePicker/>
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Отмена" Style="{StaticResource SecondaryButton}" IsCancel="True"/>
+                <Button Content="Зарегистрировать" Style="{StaticResource PrimaryButtonFlush}"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>
