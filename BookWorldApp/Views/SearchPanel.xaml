@@ -1,0 +1,29 @@
+<UserControl x:Class="BookWorldApp.Views.SearchPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Margin="0,0,0,8">
+        <TextBlock Text="Поиск книги" Style="{StaticResource Label}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Введите название, автора или другие сведения о книге">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding FindCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+
+
+
+            <Button Grid.Column="1"
+                    Content="Найти"
+                    Style="{StaticResource PrimaryButtonFlush}"
+                    Command="{Binding FindCommand}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

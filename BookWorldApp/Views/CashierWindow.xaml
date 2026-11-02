@@ -52,6 +52,9 @@
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
 
+                <v:SearchPanel Grid.Row="0"/>
+                <v:FiltersPanel Grid.Row="1"/>
+                <v:ResultsPanel Grid.Row="2"/>
             </Grid>
 
         </Grid>

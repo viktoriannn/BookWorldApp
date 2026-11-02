@@ -15,10 +15,14 @@ public partial class CashierViewModel : ObservableObject
 
     public CashierViewModel(
         UserSession session,
-        IWindowService windows)
+        IWindowService windows,
+        ICatalogService catalog,
+        IReferenceService references)
     {
         _session = session;
         _windows = windows;
+        _catalog = catalog;
+        _references = references;
     }
 
     public string ShopAddress => _session.User?.ShopName ?? "";

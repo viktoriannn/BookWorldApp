@@ -1,8 +1,9 @@
-using System.Windows;
 using BookWorldApp.Services;
 using BookWorldApp.ViewModels;
 using BookWorldApp.Views;
+using BookWorldApp.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
 namespace BookWorldApp.Infrastructure;
 
@@ -20,6 +21,7 @@ public sealed class WindowService(IServiceProvider services) : IWindowService
             case Roles.Cashier:
                 var viewModel = services.GetRequiredService<CashierViewModel>();
                 Replace(new CashierWindow { DataContext = viewModel });
+                viewModel.InitializeCommand.Execute(null);
                 break;
             case Roles.Admin:
                 services.GetRequiredService<UserSession>().SignOut();

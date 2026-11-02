@@ -1,5 +1,7 @@
 using BookWorldApp.Data;
+using BookWorldApp.Infrastructure;
 using BookWorldApp.Services;
+using BookWorldApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,15 @@ public static class AppHost
         var services = new ServiceCollection();
         services.AddDbContextFactory<BookStoreContext>(options => options.UseSqlServer(connectionString));
         services.AddSingleton<DbInitializer>();
+
+        services.AddSingleton<UserSession>();
+        services.AddSingleton<IAuthService, AuthService>();
+        services.AddSingleton<ICatalogService, CatalogService>();
+        services.AddSingleton<IReferenceService, ReferenceService>();
+
+        services.AddSingleton<IWindowService, WindowService>();
+        services.AddTransient<LoginViewModel>();
+        services.AddTransient<CashierViewModel>();
 
         return services.BuildServiceProvider();
     }
