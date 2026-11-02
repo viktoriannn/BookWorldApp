@@ -1,10 +1,10 @@
 using System.Diagnostics;
-using BookWorldApp.Infrastructure;
-using BookWorldApp.Services;
+using BookWorld.Infrastructure;
+using BookWorld.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace BookWorldApp.ViewModels;
+namespace BookWorld.ViewModels;
 
 public partial class CashierViewModel : ObservableObject
 {
@@ -17,12 +17,14 @@ public partial class CashierViewModel : ObservableObject
         UserSession session,
         IWindowService windows,
         ICatalogService catalog,
-        IReferenceService references)
+        IReferenceService references,
+        IAvailabilityService availability)
     {
         _session = session;
         _windows = windows;
         _catalog = catalog;
         _references = references;
+        _availability = availability;
     }
 
     public string ShopAddress => _session.User?.ShopName ?? "";

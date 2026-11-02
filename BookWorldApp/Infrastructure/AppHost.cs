@@ -29,6 +29,7 @@ public static class AppHost
         services.AddSingleton<IAuthService, AuthService>();
         services.AddSingleton<ICatalogService, CatalogService>();
         services.AddSingleton<IReferenceService, ReferenceService>();
+        services.AddSingleton<IAvailabilityService, AvailabilityService>();
 
         services.AddSingleton<IWindowService, WindowService>();
         services.AddTransient<LoginViewModel>();
