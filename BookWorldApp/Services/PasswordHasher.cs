@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BookWorld.Services;
+namespace BookWorldApp.Services;
 
 public static class PasswordHasher
 {

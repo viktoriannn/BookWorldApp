@@ -1,8 +1,8 @@
-﻿using BookWorld.Data;
-using BookWorld.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Markup;
+using BookWorldApp.Data;
+using BookWorldApp.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookWorldApp;
 
@@ -22,7 +22,7 @@ public partial class App : Application
         {
             var services = AppHost.Build();
             await services.GetRequiredService<DbInitializer>().InitializeAsync();
-            Shutdown();
+            services.GetRequiredService<IWindowService>().ShowLogin();
         }
         catch (Exception ex)
         {

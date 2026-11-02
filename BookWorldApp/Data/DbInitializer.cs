@@ -4,7 +4,7 @@ using BookWorldApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace BookWorld.Data;
+namespace BookWorldApp.Data;
 
 public sealed class DbInitializer(IDbContextFactory<BookStoreContext> factory)
 {

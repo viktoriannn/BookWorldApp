@@ -1,11 +1,10 @@
-using BookWorld.Data;
 using BookWorldApp.Data;
 using BookWorldApp.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BookWorld.Infrastructure;
+namespace BookWorldApp.Infrastructure;
 
 public static class AppHost
 {
