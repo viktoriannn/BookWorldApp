@@ -1,7 +1,7 @@
-using BookWorld.Services;
+using BookWorldApp.Services;
 using CommunityToolkit.Mvvm.Input;
 
-namespace BookWorld.ViewModels;
+namespace BookWorldApp.ViewModels;
 
 public partial class CashierViewModel
 {

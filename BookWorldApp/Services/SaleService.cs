@@ -1,8 +1,8 @@
-using BookWorld.Data;
-using BookWorld.Models;
+using BookWorldApp.Data;
+using BookWorldApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookWorld.Services;
+namespace BookWorldApp.Services;
 
 public interface ISaleService
 {

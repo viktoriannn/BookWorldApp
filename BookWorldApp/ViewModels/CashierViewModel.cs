@@ -1,10 +1,10 @@
 using System.Diagnostics;
-using BookWorld.Infrastructure;
-using BookWorld.Services;
+using BookWorldApp.Infrastructure;
+using BookWorldApp.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace BookWorld.ViewModels;
+namespace BookWorldApp.ViewModels;
 
 public partial class CashierViewModel : ObservableObject
 {

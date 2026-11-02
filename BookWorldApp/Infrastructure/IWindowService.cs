@@ -1,7 +1,7 @@
-using BookWorld.Services;
-using BookWorld.ViewModels;
+using BookWorldApp.Services;
+using BookWorldApp.ViewModels;
 
-namespace BookWorld.Infrastructure;
+namespace BookWorldApp.Infrastructure;
 
 public interface IWindowService
 {

@@ -1,10 +1,10 @@
 using System.Windows;
-using BookWorld.Services;
-using BookWorld.ViewModels;
-using BookWorld.Views;
+using BookWorldApp.Services;
+using BookWorldApp.ViewModels;
+using BookWorldApp.Views;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BookWorld.Infrastructure;
+namespace BookWorldApp.Infrastructure;
 
 public sealed class WindowService(IServiceProvider services) : IWindowService
 {
@@ -24,7 +24,7 @@ public sealed class WindowService(IServiceProvider services) : IWindowService
                 break;
             case Roles.Admin:
                 services.GetRequiredService<UserSession>().SignOut();
-                MessageBox.Show("Рабочее место администратора не входит в текущую версию приложения.",
+                MessageBox.Show("Рабочее место администратора не реализованно",
                     "BookWorld", MessageBoxButton.OK, MessageBoxImage.Information);
                 break;
             default:
