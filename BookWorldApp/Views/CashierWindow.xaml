@@ -58,6 +58,7 @@
                 <v:AvailabilityPanel Grid.Row="3"/>
             </Grid>
 
+            <v:ChequePanel Grid.Column="2"/>
         </Grid>
     </DockPanel>
 </Window>
