@@ -39,6 +39,21 @@ public sealed class WindowService(IServiceProvider services) : IWindowService
         window.ShowDialog();
     }
 
+    public bool? ShowOrderCreate(int? preselectedBookId)
+    {
+        var viewModel = services.GetRequiredService<OrderCreateViewModel>();
+        var window = new OrderCreateWindow { DataContext = viewModel, Owner = _current };
+        bool? created = null;
+        viewModel.CloseRequested += result =>
+        {
+            created = result;
+            CloseIfOpen(window);
+        };
+        window.Loaded += async (_, _) => await viewModel.InitializeAsync(preselectedBookId);
+        window.ShowDialog();
+        return created;
+    }
+
     private void Replace(Window next)
     {
         var previous = _current;

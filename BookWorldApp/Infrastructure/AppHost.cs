@@ -31,10 +31,12 @@ public static class AppHost
         services.AddSingleton<IAvailabilityService, AvailabilityService>();
         services.AddSingleton<ISaleService, SaleService>();
         services.AddSingleton<IChequeService, ChequeService>();
+        services.AddSingleton<IReplenishmentService, ReplenishmentService>();
 
         services.AddSingleton<IWindowService, WindowService>();
         services.AddTransient<LoginViewModel>();
         services.AddTransient<CashierViewModel>();
+        services.AddTransient<OrderCreateViewModel>();
 
         return services.BuildServiceProvider();
     }

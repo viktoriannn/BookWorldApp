@@ -1,11 +1,12 @@
-using BookWorldApp.Services;
-using BookWorldApp.ViewModels;
+using BookWorld.Services;
+using BookWorld.ViewModels;
 
-namespace BookWorldApp.Infrastructure;
+namespace BookWorld.Infrastructure;
 
 public interface IWindowService
 {
     void ShowLogin();
     void OpenWorkspace(CurrentUser user);
     void ShowCheque(ChequeViewModel viewModel);
+    bool? ShowOrderCreate(int? preselectedBookId);
 }

@@ -68,6 +68,9 @@
                     <Button Content="Добавить в чек"
                             Style="{StaticResource PrimaryButton}"
                             Command="{Binding AddToCartCommand}"/>
+                    <Button Content="Заказ на пополнение"
+                            Style="{StaticResource SecondaryButtonFlush}"
+                            Command="{Binding OpenReplenishmentCommand}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
