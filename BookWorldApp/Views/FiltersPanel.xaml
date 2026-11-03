@@ -1,0 +1,42 @@
+<UserControl x:Class="BookWorldApp.Views.FiltersPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Expander Header="Фильтры результатов" IsExpanded="False" Margin="0,0,0,8">
+        <Border Style="{StaticResource FilterPanel}">
+            <StackPanel>
+                <UniformGrid Columns="3">
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Жанр" Style="{StaticResource Label}"/>
+                        <ComboBox ItemsSource="{Binding Genres}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedGenre}"/>
+                    </StackPanel>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Автор" Style="{StaticResource Label}"/>
+                        <ComboBox ItemsSource="{Binding Authors}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedAuthor}"/>
+                    </StackPanel>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Издательство" Style="{StaticResource Label}"/>
+                        <ComboBox ItemsSource="{Binding Publishers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPublisher}"/>
+                    </StackPanel>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Переводчик" Style="{StaticResource Label}"/>
+                        <ComboBox ItemsSource="{Binding Translators}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedTranslator}"/>
+                    </StackPanel>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Серия" Style="{StaticResource Label}"/>
+                        <ComboBox ItemsSource="{Binding SeriesList}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedSeries}"/>
+                    </StackPanel>
+                </UniformGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                    <Button Content="Применить"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding ApplyFiltersCommand}"/>
+                    <Button Content="Сбросить"
+                            Style="{StaticResource SecondaryButtonFlush}"
+                            Command="{Binding ResetFiltersCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Expander>
+</UserControl>

@@ -1,0 +1,67 @@
+<Window x:Class="BookWorldApp.Views.ChequeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Кассовый чек"
+        Style="{StaticResource AppWindow}"
+        Width="480"
+        Height="560"
+        MinWidth="420"
+        MinHeight="450"
+        WindowStartupLocation="CenterOwner">
+
+    <Border Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                <TextBlock Text="Кассовый чек" Style="{StaticResource CenteredTitle}"/>
+                <TextBlock Text="{Binding Info}" Style="{StaticResource ChequeInfo}"/>
+            </StackPanel>
+
+            <DataGrid Grid.Row="1"
+                      Style="{StaticResource ReadOnlyGrid}"
+                      ItemsSource="{Binding Cheque.Lines}"
+                      Margin="0,0,0,12">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
+                    <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="55"/>
+                    <DataGridTextColumn Header="Цена, ₽" Binding="{Binding Price, StringFormat={}{0:N2}}" Width="75"/>
+                    <DataGridTextColumn Header="Сумма, ₽" Binding="{Binding Sum, StringFormat={}{0:N2}}" Width="80"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Border Grid.Row="2" Style="{StaticResource SummaryPanel}" Margin="0,0,0,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="ИТОГО:" Style="{StaticResource SummaryCaption}"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Cheque.Total, StringFormat='{}{0:N2} ₽'}"
+                               Style="{StaticResource SummaryValue}"/>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Row="3">
+                <TextBlock Text="{Binding Message}" Style="{StaticResource Hint}" Margin="0,0,0,12"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Назад к продаже"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding BackCommand}"
+                            IsCancel="True"/>
+                    <Button Content="Чек выдан"
+                            Style="{StaticResource PrimaryButtonFlush}"
+                            Command="{Binding IssuedCommand}"
+                            IsDefault="True"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
