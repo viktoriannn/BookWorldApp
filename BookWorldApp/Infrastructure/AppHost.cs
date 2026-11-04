@@ -23,7 +23,7 @@ public static class AppHost
         var services = new ServiceCollection();
         services.AddDbContextFactory<BookStoreContext>(options => options.UseSqlServer(connectionString));
         services.AddSingleton<DbInitializer>();
-
+        services.AddSingleton<ICatalogService, CatalogService>();
         services.AddSingleton<UserSession>();
         services.AddSingleton<IAuthService, AuthService>();
         services.AddSingleton<ICatalogService, CatalogService>();

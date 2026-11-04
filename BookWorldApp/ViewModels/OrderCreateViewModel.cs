@@ -28,7 +28,6 @@ public partial class OrderCreateViewModel : ObservableObject
     }
 
     public string ShopName => _session.User?.ShopName ?? "";
-
     public string OrderDate { get; } = DateTime.Now.ToShortDateString();
 
     public ObservableCollection<BookListItem> Books { get; } = new();
@@ -42,12 +41,14 @@ public partial class OrderCreateViewModel : ObservableObject
 
     public event Action<bool>? CloseRequested;
 
-    public async Task InitializeAsync(int? preselectedBookId)
+    public async Task InitializeAsync(int? bookId)
     {
         try
         {
-            foreach (var book in await _catalog.SearchAsync(new SearchCriteria(null))) Books.Add(book);
-            SelectedBook = Books.FirstOrDefault(book => book.BookId == preselectedBookId);
+            foreach (var book in await _catalog.SearchAsync(new SearchCriteria(null)))
+                Books.Add(book);
+
+            SelectedBook = Books.FirstOrDefault(x => x.BookId == bookId);
         }
         catch (Exception ex)
         {
@@ -59,21 +60,26 @@ public partial class OrderCreateViewModel : ObservableObject
     private void AddBook()
     {
         ErrorMessage = null;
+
         if (SelectedBook is null)
         {
             ErrorMessage = "Выберите книгу из списка.";
             return;
         }
 
+        var result = Cart.Add(
+            SelectedBook.BookId, SelectedBook.Title,
+            SelectedBook.Price, Quantity, stockLimit: null);
 
-        var result = Cart.Add(SelectedBook.BookId, SelectedBook.Title, SelectedBook.Price, Quantity, stockLimit: null);
-        if (!result.IsSuccess) ErrorMessage = result.Error;
+        if (!result.IsSuccess)
+            ErrorMessage = result.Error;
     }
 
     [RelayCommand]
     private void RemoveLine()
     {
         ErrorMessage = null;
+
         if (SelectedLine is null)
         {
             ErrorMessage = "Выберите позицию заказа.";
@@ -87,6 +93,7 @@ public partial class OrderCreateViewModel : ObservableObject
     private async Task CheckAvailabilityAsync()
     {
         ErrorMessage = null;
+
         if (SelectedBook is null)
         {
             ErrorMessage = "Выберите книгу из списка.";
@@ -107,9 +114,11 @@ public partial class OrderCreateViewModel : ObservableObject
     private async Task CreateAsync()
     {
         ErrorMessage = null;
+
         try
         {
             var result = await _orders.CreateAsync(Cart);
+
             if (!result.IsSuccess)
             {
                 ErrorMessage = result.Error;

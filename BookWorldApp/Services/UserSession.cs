@@ -12,10 +12,14 @@ public static class Roles
         _ => role
     };
 }
+public record CurrentUser(
+    int EmployeeId,
+    string Login,
+    string Role,
+    int? ShopId,
+    string? ShopName);
 
-public sealed record CurrentUser(int EmployeeId, string Login, string Role, int? ShopId, string? ShopName);
-
-public sealed class UserSession
+public class UserSession
 {
     public CurrentUser? User { get; private set; }
 
@@ -26,8 +30,10 @@ public sealed class UserSession
     public CurrentUser RequireCashier()
     {
         var user = User ?? throw new UnauthorizedAccessException("Требуется авторизация.");
+
         if (user.Role != Roles.Cashier || user.ShopId is null)
             throw new UnauthorizedAccessException("Операция доступна только кассиру-продавцу.");
+
         return user;
     }
 }

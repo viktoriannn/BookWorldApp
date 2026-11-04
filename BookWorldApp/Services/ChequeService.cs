@@ -3,19 +3,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookWorldApp.Services;
 
-public sealed record ChequeLineInfo(string Title, int Quantity, decimal Price, decimal Sum);
+public record ChequeLineInfo(string Title, int Quantity, decimal Price, decimal Sum);
 
-public sealed record ChequeInfo(
-    int ChequeId, DateTime Date, string ShopName, string CashierLogin,
-    IReadOnlyList<ChequeLineInfo> Lines, decimal Total);
+public record ChequeInfo(
+    int ChequeId,
+    DateTime Date,
+    string ShopName,
+    string CashierLogin,
+    IReadOnlyList<ChequeLineInfo> Lines,
+    decimal Total);
 
-public interface IChequeService
+public class ChequeService : IChequeService
 {
-    Task<ChequeInfo?> GetAsync(int chequeId, CancellationToken ct = default);
-}
+    private readonly IDbContextFactory<BookStoreContext> factory;
+    private readonly UserSession session;
 
-public sealed class ChequeService(IDbContextFactory<BookStoreContext> factory, UserSession session) : IChequeService
-{
+    public ChequeService(IDbContextFactory<BookStoreContext> factory, UserSession session)
+    {
+        this.factory = factory;
+        this.session = session;
+    }
+
     public async Task<ChequeInfo?> GetAsync(int chequeId, CancellationToken ct = default)
     {
         var shopId = session.RequireCashier().ShopId!.Value;
@@ -39,7 +47,10 @@ public sealed class ChequeService(IDbContextFactory<BookStoreContext> factory, U
 
         if (row is null) return null;
 
-        var lines = row.Lines.Select(x => new ChequeLineInfo(x.Title, x.Count, x.Price, x.Price * x.Count)).ToList();
-        return new ChequeInfo(row.IdCheque, row.Date, row.ShopName, row.Cashier, lines, row.TotalSum);
+        var lines = row.Lines.Select(x =>
+            new ChequeLineInfo(x.Title, x.Count, x.Price, x.Price * x.Count)).ToList();
+
+        return new ChequeInfo(
+            row.IdCheque, row.Date, row.ShopName, row.Cashier, lines, row.TotalSum);
     }
 }

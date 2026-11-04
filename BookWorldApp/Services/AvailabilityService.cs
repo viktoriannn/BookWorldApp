@@ -3,48 +3,88 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookWorldApp.Services;
 
-public sealed record ShopAvailability(int ShopId, string ShopName, int Quantity, bool IsMyShop);
+public record ShopAvailability(
+    int ShopId,
+    string ShopName,
+    int Quantity,
+    bool IsMyShop);
 
-public sealed record AvailabilityReport(IReadOnlyList<ShopAvailability> Shops, string Message);
+public record AvailabilityReport(
+    IReadOnlyList<ShopAvailability> Shops,
+    string Message);
 
-public interface IAvailabilityService
+public class AvailabilityService : IAvailabilityService
 {
-    Task<AvailabilityReport> GetAsync(int bookId, CancellationToken ct = default);
-}
+    private readonly IDbContextFactory<BookStoreContext> _factory;
+    private readonly UserSession _session;
 
-public sealed class AvailabilityService(IDbContextFactory<BookStoreContext> factory, UserSession session) : IAvailabilityService
-{
-    public async Task<AvailabilityReport> GetAsync(int bookId, CancellationToken ct = default)
+    public AvailabilityService(
+        IDbContextFactory<BookStoreContext> factory,
+        UserSession session)
     {
-        var myShopId = session.RequireCashier().ShopId!.Value;
-        await using var db = await factory.CreateDbContextAsync(ct);
+        _factory = factory;
+        _session = session;
+    }
 
-        var rows = await db.Shops.AsNoTracking()
+    public async Task<AvailabilityReport> GetAsync(
+        int bookId,
+        CancellationToken ct = default)
+    {
+        int myShopId = _session.RequireCashier().ShopId!.Value;
+
+        using var db = await _factory.CreateDbContextAsync(ct);
+
+        var rows = await db.Shops
+            .AsNoTracking()
             .Select(s => new
             {
                 s.IdShop,
                 s.Title,
-                Quantity = s.Remains.Where(r => r.IdBook == bookId).Select(r => r.NumberOfCopies).FirstOrDefault()
+                Quantity = s.Remains
+                    .Where(r => r.IdBook == bookId)
+                    .Select(r => r.NumberOfCopies)
+                    .FirstOrDefault()
             })
             .ToListAsync(ct);
 
         var shops = rows
-            .Select(r => new ShopAvailability(r.IdShop, r.Title, r.Quantity, r.IdShop == myShopId))
+            .Select(s => new ShopAvailability(
+                s.IdShop,
+                s.Title,
+                s.Quantity,
+                s.IdShop == myShopId))
             .OrderByDescending(s => s.IsMyShop)
             .ThenBy(s => s.ShopName)
             .ToList();
 
-        return new AvailabilityReport(shops, BuildMessage(shops));
-    }
+        int myQuantity = shops
+            .Where(s => s.IsMyShop)
+            .Sum(s => s.Quantity);
 
-    public static string BuildMessage(IReadOnlyList<ShopAvailability> shops)
-    {
-        var mine = shops.Where(s => s.IsMyShop).Sum(s => s.Quantity);
-        if (mine > 0) return $"В вашем магазине в наличии: {mine} экз. Книгу можно продать.";
+        string message;
 
-        var others = shops.Where(s => !s.IsMyShop && s.Quantity > 0).ToList();
-        return others.Count > 0
-            ? "В вашем магазине книги нет. Есть в: " + string.Join("; ", others.Select(s => $"{s.ShopName} — {s.Quantity} экз."))
-            : "Книги нет во всей сети.";
+        if (myQuantity > 0)
+        {
+            message = $"В вашем магазине в наличии: {myQuantity} экз. Книгу можно продать.";
+        }
+        else
+        {
+            var otherShops = shops
+                .Where(s => !s.IsMyShop && s.Quantity > 0)
+                .ToList();
+
+            if (otherShops.Count > 0)
+            {
+                message = "В вашем магазине книги нет. Есть в: " +
+                    string.Join("; ", otherShops.Select(s =>
+                        $"{s.ShopName} — {s.Quantity} экз."));
+            }
+            else
+            {
+                message = "Книги нет во всей сети.";
+            }
+        }
+
+        return new AvailabilityReport(shops, message);
     }
 }
