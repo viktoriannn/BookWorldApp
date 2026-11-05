@@ -8,7 +8,6 @@ public class BookStoreContext : DbContext
     public BookStoreContext(DbContextOptions<BookStoreContext> options) : base(options)
     {
     }
-
     public DbSet<PublishingHouse> PublishingHouses => Set<PublishingHouse>();
     public DbSet<Series> SeriesSet => Set<Series>();
     public DbSet<Author> Authors => Set<Author>();
@@ -25,6 +24,7 @@ public class BookStoreContext : DbContext
     public DbSet<ChequeBook> ChequeBooks => Set<ChequeBook>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderBook> OrderBooks => Set<OrderBook>();
+    public DbSet<History> HistorySet => Set<History>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)
     {
@@ -215,6 +215,29 @@ public class BookStoreContext : DbContext
             e.HasIndex(x => new { x.IdOrder, x.IdBook }).IsUnique();
             e.HasOne(x => x.Order).WithMany(x => x.OrderBooks).HasForeignKey(x => x.IdOrder);
             e.HasOne(x => x.Book).WithMany().HasForeignKey(x => x.IdBook);
+        });
+        model.Entity<History>(e =>
+        {
+            e.ToTable("History", t =>
+            {
+                t.HasCheckConstraint("CK_History_Quantity", "[Quantity] > 0");
+                t.HasCheckConstraint("CK_History_Operation_Type",
+                    "[Operation_Type] IN (N'Поступление', N'Перемещение', N'Списание')");
+            });
+            e.HasKey(x => x.IdHistory);
+            e.Property(x => x.IdHistory).HasColumnName("ID_History");
+            e.Property(x => x.OperationType).HasColumnName("Operation_Type").HasMaxLength(50);
+            e.Property(x => x.IdShopSource).HasColumnName("ID_Shop_Source");
+            e.Property(x => x.IdShop).HasColumnName("ID_Shop");
+            e.Property(x => x.IdBook).HasColumnName("ID_Book");
+            e.Property(x => x.IdEmployee).HasColumnName("ID_Employee");
+
+            e.HasOne(x => x.ShopSource).WithMany().HasForeignKey(x => x.IdShopSource)
+                .OnDelete(DeleteBehavior.NoAction);
+            e.HasOne(x => x.Shop).WithMany().HasForeignKey(x => x.IdShop)
+                .OnDelete(DeleteBehavior.NoAction);
+            e.HasOne(x => x.Book).WithMany().HasForeignKey(x => x.IdBook);
+            e.HasOne(x => x.Employee).WithMany().HasForeignKey(x => x.IdEmployee);
         });
     }
 }

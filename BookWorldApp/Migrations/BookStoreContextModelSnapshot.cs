@@ -22,7 +22,7 @@ namespace BookWorldApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BookWorld.Models.Author", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Author", b =>
                 {
                     b.Property<int>("IdAuthor")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Author", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Book", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Book", b =>
                 {
                     b.Property<int>("IdBook")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace BookWorldApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookWorld.Models.BookAuthor", b =>
+            modelBuilder.Entity("BookWorldApp.Models.BookAuthor", b =>
                 {
                     b.Property<int>("IdBookAuthor")
                         .ValueGeneratedOnAdd()
@@ -128,7 +128,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Book_Author", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.BookGenre", b =>
+            modelBuilder.Entity("BookWorldApp.Models.BookGenre", b =>
                 {
                     b.Property<int>("IdBookGenre")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Book_Genre", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.BookTranslator", b =>
+            modelBuilder.Entity("BookWorldApp.Models.BookTranslator", b =>
                 {
                     b.Property<int>("IdBookTranslator")
                         .ValueGeneratedOnAdd()
@@ -182,7 +182,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Book_Translator", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Cheque", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Cheque", b =>
                 {
                     b.Property<int>("IdCheque")
                         .ValueGeneratedOnAdd()
@@ -216,7 +216,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Cheque", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.ChequeBook", b =>
+            modelBuilder.Entity("BookWorldApp.Models.ChequeBook", b =>
                 {
                     b.Property<int>("IdChequeBook")
                         .ValueGeneratedOnAdd()
@@ -253,7 +253,7 @@ namespace BookWorldApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Employee", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Employee", b =>
                 {
                     b.Property<int>("IdEmployee")
                         .ValueGeneratedOnAdd()
@@ -296,7 +296,7 @@ namespace BookWorldApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Genre", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Genre", b =>
                 {
                     b.Property<int>("IdGenre")
                         .ValueGeneratedOnAdd()
@@ -315,7 +315,62 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Genre", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Order", b =>
+            modelBuilder.Entity("BookWorldApp.Models.History", b =>
+                {
+                    b.Property<int>("IdHistory")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID_History");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdHistory"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdBook")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_Book");
+
+                    b.Property<int>("IdEmployee")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_Employee");
+
+                    b.Property<int>("IdShop")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_Shop");
+
+                    b.Property<int?>("IdShopSource")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_Shop_Source");
+
+                    b.Property<string>("OperationType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Operation_Type");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdHistory");
+
+                    b.HasIndex("IdBook");
+
+                    b.HasIndex("IdEmployee");
+
+                    b.HasIndex("IdShop");
+
+                    b.HasIndex("IdShopSource");
+
+                    b.ToTable("History", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_History_Operation_Type", "[Operation_Type] IN (N'Поступление', N'Перемещение', N'Списание')");
+
+                            t.HasCheckConstraint("CK_History_Quantity", "[Quantity] > 0");
+                        });
+                });
+
+            modelBuilder.Entity("BookWorldApp.Models.Order", b =>
                 {
                     b.Property<int>("IdOrder")
                         .ValueGeneratedOnAdd()
@@ -348,7 +403,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Order", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.OrderBook", b =>
+            modelBuilder.Entity("BookWorldApp.Models.OrderBook", b =>
                 {
                     b.Property<int>("IdOrderBook")
                         .ValueGeneratedOnAdd()
@@ -385,7 +440,7 @@ namespace BookWorldApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookWorld.Models.PublishingHouse", b =>
+            modelBuilder.Entity("BookWorldApp.Models.PublishingHouse", b =>
                 {
                     b.Property<int>("IdPublishingHouse")
                         .ValueGeneratedOnAdd()
@@ -404,7 +459,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Publishing_house", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Remains", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Remains", b =>
                 {
                     b.Property<int>("IdRemains")
                         .ValueGeneratedOnAdd()
@@ -438,7 +493,7 @@ namespace BookWorldApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Series", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Series", b =>
                 {
                     b.Property<int>("IdSeries")
                         .ValueGeneratedOnAdd()
@@ -457,7 +512,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Series", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Shop", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Shop", b =>
                 {
                     b.Property<int>("IdShop")
                         .ValueGeneratedOnAdd()
@@ -495,7 +550,7 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Shop", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Translator", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Translator", b =>
                 {
                     b.Property<int>("IdTranslator")
                         .ValueGeneratedOnAdd()
@@ -523,15 +578,15 @@ namespace BookWorldApp.Migrations
                     b.ToTable("Translator", (string)null);
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Book", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Book", b =>
                 {
-                    b.HasOne("BookWorld.Models.PublishingHouse", "PublishingHouse")
+                    b.HasOne("BookWorldApp.Models.PublishingHouse", "PublishingHouse")
                         .WithMany("Books")
                         .HasForeignKey("IdPublishingHouse")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Series", "Series")
+                    b.HasOne("BookWorldApp.Models.Series", "Series")
                         .WithMany("Books")
                         .HasForeignKey("IdSeries");
 
@@ -540,15 +595,15 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Series");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.BookAuthor", b =>
+            modelBuilder.Entity("BookWorldApp.Models.BookAuthor", b =>
                 {
-                    b.HasOne("BookWorld.Models.Author", "Author")
+                    b.HasOne("BookWorldApp.Models.Author", "Author")
                         .WithMany("BookAuthors")
                         .HasForeignKey("IdAuthor")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Book", "Book")
+                    b.HasOne("BookWorldApp.Models.Book", "Book")
                         .WithMany("BookAuthors")
                         .HasForeignKey("IdBook")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -559,15 +614,15 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.BookGenre", b =>
+            modelBuilder.Entity("BookWorldApp.Models.BookGenre", b =>
                 {
-                    b.HasOne("BookWorld.Models.Book", "Book")
+                    b.HasOne("BookWorldApp.Models.Book", "Book")
                         .WithMany("BookGenres")
                         .HasForeignKey("IdBook")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Genre", "Genre")
+                    b.HasOne("BookWorldApp.Models.Genre", "Genre")
                         .WithMany("BookGenres")
                         .HasForeignKey("IdGenre")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -578,15 +633,15 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Genre");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.BookTranslator", b =>
+            modelBuilder.Entity("BookWorldApp.Models.BookTranslator", b =>
                 {
-                    b.HasOne("BookWorld.Models.Book", "Book")
+                    b.HasOne("BookWorldApp.Models.Book", "Book")
                         .WithMany("BookTranslators")
                         .HasForeignKey("IdBook")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Translator", "Translator")
+                    b.HasOne("BookWorldApp.Models.Translator", "Translator")
                         .WithMany("BookTranslators")
                         .HasForeignKey("IdTranslator")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -597,15 +652,15 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Translator");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Cheque", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Cheque", b =>
                 {
-                    b.HasOne("BookWorld.Models.Employee", "Employee")
+                    b.HasOne("BookWorldApp.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("IdEmployee")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Shop", "Shop")
+                    b.HasOne("BookWorldApp.Models.Shop", "Shop")
                         .WithMany()
                         .HasForeignKey("IdShop")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -616,15 +671,15 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.ChequeBook", b =>
+            modelBuilder.Entity("BookWorldApp.Models.ChequeBook", b =>
                 {
-                    b.HasOne("BookWorld.Models.Book", "Book")
+                    b.HasOne("BookWorldApp.Models.Book", "Book")
                         .WithMany()
                         .HasForeignKey("IdBook")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Cheque", "Cheque")
+                    b.HasOne("BookWorldApp.Models.Cheque", "Cheque")
                         .WithMany("ChequeBooks")
                         .HasForeignKey("IdCheque")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -635,24 +690,58 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Cheque");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Employee", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Employee", b =>
                 {
-                    b.HasOne("BookWorld.Models.Shop", "Shop")
+                    b.HasOne("BookWorldApp.Models.Shop", "Shop")
                         .WithMany("Employees")
                         .HasForeignKey("IdShop");
 
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Order", b =>
+            modelBuilder.Entity("BookWorldApp.Models.History", b =>
                 {
-                    b.HasOne("BookWorld.Models.Employee", "Employee")
+                    b.HasOne("BookWorldApp.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("IdBook")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookWorldApp.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("IdEmployee")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Shop", "Shop")
+                    b.HasOne("BookWorldApp.Models.Shop", "Shop")
+                        .WithMany()
+                        .HasForeignKey("IdShop")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("BookWorldApp.Models.Shop", "ShopSource")
+                        .WithMany()
+                        .HasForeignKey("IdShopSource")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Shop");
+
+                    b.Navigation("ShopSource");
+                });
+
+            modelBuilder.Entity("BookWorldApp.Models.Order", b =>
+                {
+                    b.HasOne("BookWorldApp.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("IdEmployee")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookWorldApp.Models.Shop", "Shop")
                         .WithMany()
                         .HasForeignKey("IdShop")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -663,15 +752,15 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.OrderBook", b =>
+            modelBuilder.Entity("BookWorldApp.Models.OrderBook", b =>
                 {
-                    b.HasOne("BookWorld.Models.Book", "Book")
+                    b.HasOne("BookWorldApp.Models.Book", "Book")
                         .WithMany()
                         .HasForeignKey("IdBook")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Order", "Order")
+                    b.HasOne("BookWorldApp.Models.Order", "Order")
                         .WithMany("OrderBooks")
                         .HasForeignKey("IdOrder")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -682,15 +771,15 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Remains", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Remains", b =>
                 {
-                    b.HasOne("BookWorld.Models.Book", "Book")
+                    b.HasOne("BookWorldApp.Models.Book", "Book")
                         .WithMany("Remains")
                         .HasForeignKey("IdBook")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookWorld.Models.Shop", "Shop")
+                    b.HasOne("BookWorldApp.Models.Shop", "Shop")
                         .WithMany("Remains")
                         .HasForeignKey("IdShop")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -701,12 +790,12 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Author", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Author", b =>
                 {
                     b.Navigation("BookAuthors");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Book", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Book", b =>
                 {
                     b.Navigation("BookAuthors");
 
@@ -717,39 +806,39 @@ namespace BookWorldApp.Migrations
                     b.Navigation("Remains");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Cheque", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Cheque", b =>
                 {
                     b.Navigation("ChequeBooks");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Genre", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Genre", b =>
                 {
                     b.Navigation("BookGenres");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Order", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Order", b =>
                 {
                     b.Navigation("OrderBooks");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.PublishingHouse", b =>
+            modelBuilder.Entity("BookWorldApp.Models.PublishingHouse", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Series", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Series", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Shop", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Shop", b =>
                 {
                     b.Navigation("Employees");
 
                     b.Navigation("Remains");
                 });
 
-            modelBuilder.Entity("BookWorld.Models.Translator", b =>
+            modelBuilder.Entity("BookWorldApp.Models.Translator", b =>
                 {
                     b.Navigation("BookTranslators");
                 });
